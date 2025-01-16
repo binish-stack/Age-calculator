@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+
+        input {
+            margin: 5px;
+            padding: 10px;
+            width: 200px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Age Calculator</h1>
+        <p>Enter your date of birth below:</p>
+        <input type="number" id="day" placeholder="Day (e.g., 15)" min="1" max="31">
+        <input type="number" id="month" placeholder="Month (e.g., 7)" min="1" max="12">
+        <input type="number" id="year" placeholder="Year (e.g., 1990)" min="1900" max="2025">
+        <br>
+        <button onclick="calculateAge()">Calculate Age</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateAge() {
+            const day = parseInt(document.getElementById('day').value);
+            const month = parseInt(document.getElementById('month').value) - 1; // Months are 0-based in JS Date
+            const year = parseInt(document.getElementById('year').value);
+
+            if (isNaN(day) || isNaN(month) || isNaN(year)) {
+                document.getElementById('result').textContent = 'Please enter valid numbers for day, month, and year.';
+                return;
+            }
+
+            const today = new Date();
+            const birthDate = new Date(year, month, day);
+
+            if (birthDate > today) {
+                document.getElementById('result').textContent = 'The date of birth cannot be in the future.';
+                return;
+            }
+
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDifference = today.getMonth() - birthDate.getMonth();
+            const dayDifference = today.getDate() - birthDate.getDate();
+
+            if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
+                age--;
+            }
+
+            document.getElementById('result').textContent = `You are ${age} years old.`;
+        }
+    </script>
+</body>
+</html>
